@@ -67,7 +67,6 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 const displayTransactions = function (transactions) {
   containerTransactions.innerHTML = '';
-
   transactions.forEach(function (trans, index) {
     const transType = trans > 0 ? 'deposit' : 'withdrawal';
     const transTypeTranslate =
@@ -80,7 +79,7 @@ const displayTransactions = function (transactions) {
         ${index + 1} ${transTypeTranslate}
       </div>
       <div class="transactions__date">2 дня назад</div>
-      <div class="transactions__value">${trans}$</div>
+      <div class="transactions__value">${Math.abs(trans)}$</div>
     </div>
     `;
     containerTransactions.insertAdjacentHTML('afterbegin', transactionRow);
