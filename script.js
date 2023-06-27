@@ -98,4 +98,9 @@ const createNicknames = function (accs) {
   });
 };
 createNicknames(accounts);
-console.log(accounts);
+
+const displayBalance = function (transactions) {
+  const balance = transactions.reduce((acc, trans) => (acc += trans), 0);
+  labelBalance.textContent = `${balance}$`;
+};
+displayBalance(accounts[0].transactions);
