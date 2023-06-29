@@ -93,7 +93,7 @@ const createNicknames = function (accs) {
     acc.nickname = acc.userName
       .toLowerCase()
       .split(' ')
-      .map((word) => word[0])
+      .map(word => word[0])
       .join('');
   });
 };
@@ -107,19 +107,19 @@ displayBalance(accounts[0].transactions);
 
 const displayTotal = function (transactions) {
   const depositTotal = transactions
-    .filter((trans) => trans > 0)
+    .filter(trans => trans > 0)
     .reduce((acc, trans) => acc + trans, 0);
   labelSumIn.textContent = `${depositTotal}$`;
 
   const withdrawaslTotal = transactions
-    .filter((trans) => trans < 0)
+    .filter(trans => trans < 0)
     .reduce((acc, trans) => acc + trans, 0);
   labelSumOut.textContent = `${Math.abs(withdrawaslTotal)}$`;
 
   const interestTotal = transactions
-    .filter((trans) => trans > 0)
-    .map((deposit) => (deposit * 1.1) / 100)
-    .filter((interest) => interest >= 5)
+    .filter(trans => trans > 0)
+    .map(deposit => (deposit * 1.1) / 100)
+    .filter(interest => interest >= 5)
     .reduce((acc, interest) => acc + interest, 0);
   labelSumInterest.textContent = `${interestTotal}$`;
 };
