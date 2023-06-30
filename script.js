@@ -86,7 +86,6 @@ const displayTransactions = function (transactions) {
     // console.log(containerTransactions.innerHTML);
   });
 };
-displayTransactions(account1.transactions);
 
 const createNicknames = function (accs) {
   accs.forEach(function (acc) {
@@ -103,24 +102,49 @@ const displayBalance = function (transactions) {
   const balance = transactions.reduce((acc, trans) => (acc += trans), 0);
   labelBalance.textContent = `${balance}$`;
 };
-displayBalance(accounts[0].transactions);
 
-const displayTotal = function (transactions) {
-  const depositTotal = transactions
+const displayTotal = function (account) {
+  const depositTotal = account.transactions
     .filter(trans => trans > 0)
     .reduce((acc, trans) => acc + trans, 0);
   labelSumIn.textContent = `${depositTotal}$`;
 
-  const withdrawaslTotal = transactions
+  const withdrawaslTotal = account.transactions
     .filter(trans => trans < 0)
     .reduce((acc, trans) => acc + trans, 0);
   labelSumOut.textContent = `${Math.abs(withdrawaslTotal)}$`;
 
-  const interestTotal = transactions
+  const interestTotal = account.transactions
     .filter(trans => trans > 0)
-    .map(deposit => (deposit * 1.1) / 100)
+    .map(deposit => (deposit * account.interest) / 100)
     .filter(interest => interest >= 5)
     .reduce((acc, interest) => acc + interest, 0);
   labelSumInterest.textContent = `${interestTotal}$`;
 };
-displayTotal(accounts[0].transactions);
+
+let currentAccount;
+
+btnLogin.addEventListener('click', function (e) {
+  e.preventDefault();
+  currentAccount = accounts.find(
+    account => account.nickname === inputLoginUsername.value
+  );
+
+  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Display UI and welcome message
+    labelWelcome.textContent = `Рады, что вы снова с нами ${
+      currentAccount.userName.split(' ')[0]
+    }`;
+    containerApp.style.opacity = 1;
+    // Clear inputs
+    inputLoginUsername.value = '';
+    inputLoginPin.value = '';
+    inputLoginPin.blur();
+    // Display transactions
+    displayTransactions(currentAccount.transactions);
+    // Display balance
+    displayBalance(currentAccount.transactions);
+    // Display total
+    displayTotal(currentAccount);
+  }
+});
