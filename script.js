@@ -144,7 +144,7 @@ btnLogin.addEventListener('click', function (e) {
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
     // Hidden test data
-    testData.style.display = 'none';
+    // testData.style.display = 'none';
     // Display UI and welcome message
     labelWelcome.textContent = `Рады, что вы снова с нами ${
       currentAccount.userName.split(' ')[0]

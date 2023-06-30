@@ -79,9 +79,9 @@ nav {
 
 .test-data {
   margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  position: absolute;
+  top: 60px;
+  right: 90px;
 }
 .test-data__account {
   margin-top: 10px;
