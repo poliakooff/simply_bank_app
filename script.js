@@ -40,6 +40,8 @@ const account5 = {
 const accounts = [account1, account2, account3, account4, account5];
 
 // Elements
+const testData = document.querySelector('.test-data');
+const testAccount = document.querySelector('.test-data__account');
 const labelWelcome = document.querySelector('.welcome');
 const labelDate = document.querySelector('.date');
 const labelBalance = document.querySelector('.balance__value');
@@ -97,6 +99,16 @@ const createNicknames = function (accs) {
   });
 };
 createNicknames(accounts);
+const displayTestAccountToHTML = function (accounts) {
+  testAccount.innerHTML = '';
+  accounts.forEach((value, index) => {
+    const testAccountDisplay = `<h1 class="test-data__account account${[
+      index + 1,
+    ]}">${accounts[index].nickname} , ${accounts[index].pin}</h1>`;
+    testAccount.insertAdjacentHTML('beforebegin', testAccountDisplay);
+  });
+};
+displayTestAccountToHTML(accounts);
 
 const displayBalance = function (transactions) {
   const balance = transactions.reduce((acc, trans) => (acc += trans), 0);
@@ -131,11 +143,14 @@ btnLogin.addEventListener('click', function (e) {
   );
 
   if (currentAccount?.pin === Number(inputLoginPin.value)) {
+    // Hidden test data
+    testData.style.display = 'none';
     // Display UI and welcome message
     labelWelcome.textContent = `Рады, что вы снова с нами ${
       currentAccount.userName.split(' ')[0]
     }`;
     containerApp.style.opacity = 1;
+    containerApp.style.display = 'grid';
     // Clear inputs
     inputLoginUsername.value = '';
     inputLoginPin.value = '';
