@@ -223,3 +223,17 @@ btnClose.addEventListener('click', function (e) {
   inputCloseUsername.value = '';
   inputClosePin.value = '';
 });
+
+btnLoan.addEventListener('click', function (e) {
+  e.preventDefault();
+  const loanAmount = Number(inputLoanAmount.value);
+  const isThisDealOverTenPercent = currentAccount.transactions.some(
+    trans => trans >= (loanAmount * 10) / 100
+  );
+  if (loanAmount > 0 && isThisDealOverTenPercent) {
+    // currentAccount.loan.push(loanAmount);
+    updateUi(currentAccount);
+    currentAccount.transactions.push(loanAmount);
+    console.log(account1);
+  }
+});
