@@ -67,9 +67,14 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayTransactions = function (transactions) {
+const displayTransactions = function (transactions, sort = false) {
   containerTransactions.innerHTML = '';
-  transactions.forEach(function (trans, index) {
+
+  const transacs = sort
+    ? transactions.slice().sort((x, y) => x - y)
+    : transactions;
+
+  transacs.forEach(function (trans, index) {
     const transType = trans > 0 ? 'deposit' : 'withdrawal';
     const transTypeTranslate =
       transType === 'deposit' ? 'ДЕПОЗИТ' : 'ВЫВОД СРЕДСТВ';
@@ -235,5 +240,18 @@ btnLoan.addEventListener('click', function (e) {
     updateUi(currentAccount);
     currentAccount.transactions.push(loanAmount);
     console.log(account1);
+  }
+});
+
+let transactionsSorted = false;
+
+btnSort.addEventListener('click', function (e) {
+  e.preventDefault();
+  displayTransactions(currentAccount.transactions, !transactionsSorted);
+  transactionsSorted = !transactionsSorted;
+  if (transactionsSorted) {
+    btnSort.style.color = 'green';
+  } else {
+    btnSort.style.color = 'black';
   }
 });
