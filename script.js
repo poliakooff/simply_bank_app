@@ -4,7 +4,7 @@
 
 const account1 = {
   userName: 'Cecil Ireland',
-  transactions: [500, 250, -300, 5000, -850, -110, -170, 1100],
+  transactions: [500.32, 250, -300.92, 5000, -850, -110.18, -170, 1100],
   interest: 1.5,
   pin: 1111,
 };
@@ -86,7 +86,7 @@ const displayTransactions = function (transactions, sort = false) {
         ${index + 1} ${transTypeTranslate}
       </div>
       <div class="transactions__date">2 дня назад</div>
-      <div class="transactions__value">${Math.abs(trans)}$</div>
+      <div class="transactions__value">${trans.toFixed(2)}$</div>
     </div>
     `;
     containerTransactions.insertAdjacentHTML('afterbegin', transactionRow);
@@ -122,7 +122,7 @@ const displayBalance = function (account) {
     0
   );
   account.balance = balance;
-  labelBalance.textContent = `${balance}$`;
+  labelBalance.textContent = `${balance.toFixed(2)}$`;
 
   console.log('---balance---');
   console.log(balance);
@@ -132,19 +132,19 @@ const displayTotal = function (account) {
   const depositTotal = account.transactions
     .filter(trans => trans > 0)
     .reduce((acc, trans) => acc + trans, 0);
-  labelSumIn.textContent = `${depositTotal}$`;
+  labelSumIn.textContent = `${depositTotal.toFixed(2)}$`;
 
   const withdrawaslTotal = account.transactions
     .filter(trans => trans < 0)
     .reduce((acc, trans) => acc + trans, 0);
-  labelSumOut.textContent = `${Math.abs(withdrawaslTotal)}$`;
+  labelSumOut.textContent = `${Math.abs(withdrawaslTotal.toFixed(2))}$`;
 
   const interestTotal = account.transactions
     .filter(trans => trans > 0)
     .map(deposit => (deposit * account.interest) / 100)
     .filter(interest => interest >= 5)
     .reduce((acc, interest) => acc + interest, 0);
-  labelSumInterest.textContent = `${interestTotal}$`;
+  labelSumInterest.textContent = `${interestTotal.toFixed(2)}$`;
 };
 
 const updateUi = function (account) {
@@ -231,7 +231,7 @@ btnClose.addEventListener('click', function (e) {
 
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
-  const loanAmount = +inputLoanAmount.value;
+  const loanAmount = Math.floor(inputLoanAmount.value);
   const isThisDealOverTenPercent = currentAccount.transactions.some(
     trans => trans >= (loanAmount * 10) / 100
   );
