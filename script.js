@@ -164,7 +164,7 @@ btnLogin.addEventListener('click', function (e) {
     account => account.nickname === inputLoginUsername.value
   );
 
-  if (currentAccount?.pin === Number(inputLoginPin.value)) {
+  if (currentAccount?.pin === +inputLoginPin.value) {
     // Hidden test data
     // testData.style.display = 'none';
     // Display UI and welcome message
@@ -186,7 +186,7 @@ btnLogin.addEventListener('click', function (e) {
 
 btnTransfer.addEventListener('click', function (e) {
   e.preventDefault();
-  const transferAmount = Number(inputTransferAmount.value);
+  const transferAmount = +inputTransferAmount.value;
   const recipientNickname = inputTransferTo.value;
   const recipientAccount = accounts.find(
     account => account.nickname === recipientNickname
@@ -210,7 +210,7 @@ btnTransfer.addEventListener('click', function (e) {
 btnClose.addEventListener('click', function (e) {
   e.preventDefault();
   const confirmName = inputCloseUsername.value;
-  const confirmPin = Number(inputClosePin.value);
+  const confirmPin = +inputClosePin.value;
   if (
     currentAccount.nickname === confirmName &&
     confirmPin === currentAccount.pin
@@ -231,7 +231,7 @@ btnClose.addEventListener('click', function (e) {
 
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
-  const loanAmount = Number(inputLoanAmount.value);
+  const loanAmount = +inputLoanAmount.value;
   const isThisDealOverTenPercent = currentAccount.transactions.some(
     trans => trans >= (loanAmount * 10) / 100
   );
