@@ -12,10 +12,10 @@ const account1 = {
     '2020-10-29T11:24:19.761Z',
     '2020-11-15T10:45:23.907Z',
     '2021-01-22T12:17:46.255Z',
-    '2021-02-12T15:14:06.486Z',
-    '2021-03-09T11:42:26.371Z',
-    '2021-05-21T07:43:59.331Z',
-    '2021-06-22T15:21:20.814Z',
+    '2023-07-28T11:42:26.371Z',
+    '2023-07-29T07:43:59.331Z',
+    '2023-07-30T15:21:20.814Z',
+    '2023-07-31T15:14:06.486Z',
   ],
   currency: 'USD',
   locale: 'en-US',
@@ -121,6 +121,24 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
+const formatTransactionDate = function (date) {
+  const getDaysBetween2Dates = (date1, date2) =>
+    Math.round(Math.abs((date2 - date1) / (1000 * 60 * 60 * 24)));
+
+  const daysPassed = getDaysBetween2Dates(new Date(), date);
+
+  if (daysPassed === 0) return 'Сегодня';
+  if (daysPassed === 1) return 'Вчера';
+  if (daysPassed <= 4) return `${daysPassed} дня назад`;
+  else {
+    const day = `${date.getDate()}`.padStart(2, '0');
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+  }
+};
+
 const displayTransactions = function (account, sort = false) {
   containerTransactions.innerHTML = '';
 
@@ -134,10 +152,7 @@ const displayTransactions = function (account, sort = false) {
       transType === 'deposit' ? 'ДЕПОЗИТ' : 'ВЫВОД СРЕДСТВ';
 
     const date = new Date(account.transactionsDates[index]);
-    const day = `${date.getDate()}`.padStart(2, '0');
-    const month = `${date.getMonth() + 1}`.padStart(2, '0');
-    const year = date.getFullYear();
-    const transDate = `${day}/${month}/${year}`;
+    const transDate = formatTransactionDate(date);
 
     const transactionRow = `
     <div class="transactions">
