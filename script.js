@@ -225,7 +225,7 @@ const displayTotal = function (account) {
   const depositTotal = account.transactions
     .filter(trans => trans > 0)
     .reduce((acc, trans) => acc + trans, 0);
-  labelSumIn.textContent = labelBalance.textContent = formatCurrency(
+  labelSumIn.textContent = formatCurrency(
     depositTotal,
     account.locale,
     account.currency
@@ -234,7 +234,7 @@ const displayTotal = function (account) {
   const withdrawaslTotal = account.transactions
     .filter(trans => trans < 0)
     .reduce((acc, trans) => acc + trans, 0);
-  labelSumOut.textContent = labelBalance.textContent = formatCurrency(
+  labelSumOut.textContent = formatCurrency(
     withdrawaslTotal,
     account.locale,
     account.currency
@@ -245,7 +245,7 @@ const displayTotal = function (account) {
     .map(deposit => (deposit * account.interest) / 100)
     .filter(interest => interest >= 5)
     .reduce((acc, interest) => acc + interest, 0);
-  labelSumInterest.textContent = labelBalance.textContent = formatCurrency(
+  labelSumInterest.textContent = formatCurrency(
     interestTotal,
     account.locale,
     account.currency
