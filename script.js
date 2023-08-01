@@ -163,7 +163,6 @@ const displayTransactions = function (account, sort = false) {
     const date = new Date(account.transactionsDates[index]);
     const transDate = formatTransactionDate(date, account.locale);
 
-    debugger;
     const formattedTrans = formatCurrency(
       trans,
       account.locale,
@@ -374,16 +373,17 @@ btnClose.addEventListener('click', function (e) {
 btnLoan.addEventListener('click', function (e) {
   e.preventDefault();
   const loanAmount = Math.floor(inputLoanAmount.value);
-  const isThisDealOverTenPercent = currentAccount.transactions.some(
-    trans => trans >= (loanAmount * 10) / 100
-  );
-  if (loanAmount > 0 && isThisDealOverTenPercent) {
-    // currentAccount.loan.push(loanAmount);
-    updateUi(currentAccount);
-    currentAccount.transactions.push(loanAmount);
-    currentAccount.transactionsDates.push(new Date().toISOString());
-    console.log(account1);
+  if (
+    loanAmount > 0 &&
+    currentAccount.transactions.some(trans => trans >= (loanAmount * 10) / 100)
+  ) {
+    setTimeout(function () {
+      currentAccount.transactions.push(loanAmount);
+      currentAccount.transactionsDates.push(new Date().toISOString());
+      updateUi(currentAccount);
+    }, 5000);
   }
+  inputLoanAmount.value = '';
 });
 
 let transactionsSorted = false;
