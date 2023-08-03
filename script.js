@@ -163,7 +163,6 @@ const displayTransactions = function (account, sort = false) {
     const date = new Date(account.transactionsDates[index]);
     const transDate = formatTransactionDate(date, account.locale);
 
-    debugger;
     const formattedTrans = formatCurrency(
       trans,
       account.locale,
@@ -261,11 +260,41 @@ const updateUi = function (account) {
   displayTotal(account);
 };
 
-let currentAccount;
+let currentAccount, currentLogOutTimer;
 
-currentAccount = account1;
-updateUi(currentAccount);
-containerApp.style.opacity = 1;
+// Always logged in
+// currentAccount = account1;
+// updateUi(currentAccount);
+// containerApp.style.opacity = 1;
+
+const startLogoutTimet = function () {
+  const logOutTimerCallback = function () {
+    const minutes = String(Math.trunc(time / 60)).padStart(2, '0');
+    const seconds = String(time % 60).padStart(2, '0');
+    // В каждом вызове показывать оставшееся вермя в UI
+    labelTimer.textContent = `${minutes}:${seconds}`;
+    if (time === 0) {
+      clearInterval(logOutTimer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = 'Войдите в свой аккаунт';
+    } else {
+      time--;
+    }
+    // После истечения времени остановить таймер и выйти из преложения
+  };
+
+  // Выход через 5 секунд
+  let time = 60;
+  window.addEventListener('click', function () {
+    time = 60;
+  });
+
+  // Вызов таймера каждую секунду
+  logOutTimerCallback();
+  const logOutTimer = setInterval(logOutTimerCallback, 1000);
+
+  return logOutTimer;
+};
 
 // Event Handlers
 
@@ -280,6 +309,7 @@ btnLogin.addEventListener('click', function (e) {
     // Hidden test data
     // testData.style.display = 'none';
     // Display UI and welcome message
+    containerApp.style.opacity = 1;
     labelWelcome.textContent = `Рады, что вы снова с нами ${
       currentAccount.userName.split(' ')[0]
     }!`;
@@ -307,12 +337,15 @@ btnLogin.addEventListener('click', function (e) {
       option
     ).format(now);
 
-    containerApp.style.opacity = 1;
     containerApp.style.display = 'grid';
     // Clear inputs
     inputLoginUsername.value = '';
     inputLoginPin.value = '';
     inputLoginPin.blur();
+
+    // Check if the timer exist
+    if (currentLogOutTimer) clearInterval(currentLogOutTimer);
+    currentLogOutTimer = startLogoutTimet();
 
     updateUi(currentAccount);
   }
